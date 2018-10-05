@@ -77,4 +77,6 @@ def my_input_fn(features, tatgets, batch_size=1, shuffle=True, num_epochs=None):
 _ = linear_regressor.train(input_fn=lambda :my_input_fn(my_feature, targets),
                            steps=100)
 
-# Create 
+# Create an input function for predictions
+# Note: Since we're making just one prediction for each example, we don't
+# need to repeat or shuffle the data here
