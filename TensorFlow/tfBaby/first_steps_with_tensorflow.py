@@ -94,3 +94,8 @@ mean_squared_error = metrics.mean_squared_error(predictions, targets)
 root_mean_squared_error = math.sqrt(mean_squared_error)
 print("Mean Squared Error (on training data): %0.3f" % mean_squared_error)
 print("Root Mean Squared Error (on training data): %0.3f" % root_mean_squared_error)
+
+calibration_data = pd.DataFrame()
+calibration_data["predictions"] = pd.Series(predictions)
+calibration_data["targets"] = pd.Series(targets)
+calibration_data.describe()
