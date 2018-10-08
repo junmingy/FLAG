@@ -49,6 +49,6 @@ print('GPU (s)')
 gpu_time = timeit.timeit('gpu()', number=10, setup="from __main__ import gpu")
 print(gpu_time)
 
-print('GPU speedup over CPU: {}x'.format(int(gpu_time/cpu_time)))
+print('GPU speedup over CPU: {}x'.format(int(cpu_time/gpu_time)))
 
 sess.close()
