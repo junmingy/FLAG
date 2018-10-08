@@ -14,6 +14,9 @@ from sklearn import metrics
 import tensorflow as tf
 from tensorflow.python.data import Dataset
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 tf.logging.set_verbosity(tf.logging.ERROR)
 pd.options.display.max_rows = 10
 pd.options.display.float_format = '{:.1f}'.format

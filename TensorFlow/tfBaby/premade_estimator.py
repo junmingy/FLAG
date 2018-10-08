@@ -21,6 +21,8 @@ import tensorflow as tf
 
 import iris_data
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--batch_size', default=100, type=int, help='batch size')
