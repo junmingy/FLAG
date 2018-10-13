@@ -36,6 +36,51 @@ def prepeocess_features(california_housing_dataframe):
         [
             "latitude",
             "longitude",
-            ""
+            "housing_median_age",
+            "total_rooms",
+            "total_bedrooms",
+            "population",
+            "households",
+            "median_income"
         ]
     ]
+
+    processed_features = selected_features.copy()
+    # Create a synthetic feature
+    processed_features["rooms_per_person"] = (
+        california_housing_dataframe["total_rooms"] /
+        california_housing_dataframe["population"]
+    )
+
+    return processed_features
+
+
+def preprocess_targets(california_housing_dataframe):
+    """
+    Prepare target features(labels) from california housing data set
+    :param california_housing_dataframe: A Pandas DataFrame expected to contain data
+                                         from the California housing data set
+    :return: A DataFrame that contains the target feature
+    """
+    output_targets = pd.DataFrame()
+    # Scale the target to be in units of thousands of dollors
+    output_targets["median_house_value"] = (
+        california_housing_dataframe["median_house_value"] / 1000.0
+    )
+
+    return output_targets
+
+
+training_examples = prepeocess_features(california_housing_dataframe.head(12000))
+print(training_examples.describe())
+
+training_targets = preprocess_targets(california_housing_dataframe.head(12000))
+print(training_targets.describe())
+
+validation_examples = prepeocess_features(california_housing_dataframe.tail(5000))
+print(validation_examples.describe())
+
+validation_targets = preprocess_targets(california_housing_dataframe.tail(5000))
+print(validation_targets.describe())
+
+
