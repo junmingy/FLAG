@@ -95,3 +95,7 @@ print("Validation targets summary:")
 display.display(validation_targets.describe())
 
 
+correlation_dataframe = training_examples.copy()
+correlation_dataframe["target"] = training_targets["median_house_value"]
+
+print(correlation_dataframe.corr())
