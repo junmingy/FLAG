@@ -139,6 +139,7 @@ def train_model(
         learning_rate,
         steps,
         batch_size,
+        feature_columns,
         training_examples,
         training_targets,
         validation_examples,
@@ -155,6 +156,7 @@ def train_model(
                   A training step consists of a forward and backward pass using
                   a single batch
     :param batch_size: A non-zero 'int', the batch size
+    :param feature_columns: A 'set' specifying the input feature columns to use
     :param training_examples: A 'DataFrame' containing one or more columns from
                               'california_housing_dataframe' to use as input features
                               for training
@@ -174,7 +176,7 @@ def train_model(
     my_optimizer = tf.train.FtrlOptimizer(learning_rate=learning_rate)
     my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, 5.0)
     linear_regressor = tf.estimator.LinearRegressor(
-        feature_columns=construct_feature_columns(training_examples),
+        feature_columns=feature_columns,
         optimizer=my_optimizer
     )
 
@@ -253,10 +255,70 @@ _ = train_model(
     learning_rate=1.0,
     steps=500,
     batch_size=100,
+    feature_columns=construct_feature_columns(training_examples),
     training_examples=training_examples,
     training_targets=training_targets,
     validation_examples=validation_examples,
     validation_targets=validation_targets
 )
 
+
+def get_quantile_based_boundaries(feature_value, num_buckets):
+    boundaries = np.arange(1.0, num_buckets) / num_buckets
+    quantiles = feature_value.quantile(boundaries)
+
+    return [quantiles[q] for q in quantiles.keys()]
+
+
+# Divide households into 7 buckets
+households = tf.feature_column.numeric_column("households")
+bucketized_households = tf.feature_column.bucketized_column(
+    households, boundaries=get_quantile_based_boundaries(
+        california_housing_dataframe["households"], 7
+    )
+)
+
+# Divide longitude into 10 buckets
+longitude = tf.feature_column.numeric_column("longitude")
+bucketized_longitude = tf.feature_column.bucketized_column(
+    longitude, boundaries=get_quantile_based_boundaries(
+        california_housing_dataframe["longitude"], 10
+    )
+)
+
+
+def construct_feature_columns():
+    """
+    Construct the TensorFlow Feature Columns
+    :return: A Set of feature columns
+    """
+    households = tf.feature_column.numeric_column("households")
+    longitude = tf.feature_column.numeric_column("longitude")
+    latitude = tf.feature_column.numeric_column("latitude")
+    housing_median_age = tf.feature_column.numeric_column("housing_median_age")
+    median_income = tf.feature_column.numeric_column("median_income")
+    rooms_per_person = tf.feature_column.numeric_column("rooms_per_person")
+
+    # Divide households into 7 buckets
+    bucketized_households = tf.feature_column.bucketized_column(
+        households, boundaries=get_quantile_based_boundaries(
+            training_examples["households"], 7
+        )
+    )
+
+    # Divide longitude into 10 buckets
+    bucketized_longitude = tf.feature_column.bucketized_column(
+        longitude, boundaries=get_quantile_based_boundaries(
+            training_examples["longitude"], 10
+        )
+    )
+
+    # Divide latitude into 10 buckets
+    bucketized_latitude = tf.feature_column.bucketized_column(
+        latitude, boundaries=get_quantile_based_boundaries(
+            training_examples["latitude"], 10
+        )
+    )
+
+    # Divide
 
