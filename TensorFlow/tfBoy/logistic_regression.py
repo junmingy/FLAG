@@ -66,9 +66,9 @@ def preprocess_targets(california_housing_dataframe):
 
     output_targets = pd.DataFrame()
 
-    # Scale the target to be in units of thousands of dollors
-    output_targets["median_house_value"] = (
-        california_housing_dataframe["median_house_value"] / 1000.0
-    )
+    # Create a boolean categorical feature representing whether the
+    # median_house_value is above a set threshold
+    output_targets["median_house_value_is_high"] = (
+        california_housing_dataframe["median_house_value"] > 265000).astype(float)
 
     return output_targets
