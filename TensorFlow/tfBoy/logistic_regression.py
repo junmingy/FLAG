@@ -138,7 +138,6 @@ def train_model(
         learning_rate,
         steps,
         batch_size,
-        feature_columns,
         training_examples,
         training_targets,
         validation_examples,
@@ -172,30 +171,30 @@ def train_model(
     steps_per_period = steps / periods
 
     # Create a linear regressor object
-    my_optimizer = tf.train.FtrlOptimizer(learning_rate=learning_rate)
+    my_optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate)
     my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, 5.0)
     linear_regressor = tf.estimator.LinearRegressor(
-        feature_columns=feature_columns,
+        feature_columns=construct_feature_columns(training_examples),
         optimizer=my_optimizer
     )
 
     # Create input functions
     training_input_fn = lambda: my_input_fn(
         training_examples,
-        training_targets["median_house_value"],
+        training_targets["median_house_value_is_high"],
         batch_size=batch_size
     )
 
     predict_training_input_fn = lambda: my_input_fn(
         training_examples,
-        training_targets["median_house_value"],
+        training_targets["median_house_value_is_high"],
         num_epochs=1,
         shuffle=False
     )
 
     predict_validation_input_fn = lambda: my_input_fn(
         validation_examples,
-        validation_targets["median_house_value"],
+        validation_targets["median_house_value_is_high"],
         num_epochs=1,
         shuffle=False
     )
@@ -251,13 +250,13 @@ def train_model(
 
 
 _ = train_model(
-    learning_rate=1,
-    steps=500,
-    batch_size=100,
-    feature_columns=construct_feature_columns(training_examples),
+    learning_rate=0.000001,
+    steps=200,
+    batch_size=20,
     training_examples=training_examples,
     training_targets=training_targets,
     validation_examples=validation_examples,
     validation_targets=validation_targets
 )
+
 
