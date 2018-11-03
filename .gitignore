@@ -2,3 +2,5 @@
 .DS_Store
 .out
 __pycache__
+*.class
+.lift
