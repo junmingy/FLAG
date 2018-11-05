@@ -373,8 +373,7 @@ validation_probabilities = linear_classifier.predict(input_fn=predict_validation
 # Get just the probabilities for the positive class.
 validation_probabilities = np.array([item['probabilities'][1] for item in validation_probabilities])
 
-false_positive_rate, true_positive_rate, thresholds = metrics.roc_curve(
-    validation_targets, validation_probabilities)
+false_positive_rate, true_positive_rate, thresholds = metrics.roc_curve(validation_targets, validation_probabilities)
 
 plt.plot(false_positive_rate, true_positive_rate, label="our model")
 plt.plot([0, 1], [0, 1], label="random classifier")
