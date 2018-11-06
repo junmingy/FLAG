@@ -1,5 +1,9 @@
 from __future__ import print_function
 
+import os
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
 import math
 
 from IPython import display
@@ -359,18 +363,18 @@ linear_classifier = train_linear_classifier_model(
     validation_targets=validation_targets)
 
 
-predict_validation_input = my_input_fn(validation_examples,
-                                       validation_targets["median_house_value_is_high"],
-                                       num_epochs=1,
-                                       shuffle=False)
+predict_validation_input_fn = lambda: my_input_fn(validation_examples,
+                                                  validation_targets["median_house_value_is_high"],
+                                                  num_epochs=1,
+                                                  shuffle=False)
 
-evalution_metrics = linear_classifier.evaluate(input_fn=predict_validation_input)
+evalution_metrics = linear_classifier.evaluate(input_fn=predict_validation_input_fn)
 
 print("AUC on the validation set: %0.2f" % evalution_metrics['auc'])
 print("Accuracy on the validation set: %0.2f" % evalution_metrics['accuracy'])
 
 
-validation_probabilities = linear_classifier.predict(input_fn=predict_validation_input)
+validation_probabilities = linear_classifier.predict(input_fn=predict_validation_input_fn)
 print(validation_probabilities)
 
 # Get just the probabilities for the positive class
