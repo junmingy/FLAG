@@ -244,8 +244,8 @@ def train_model(
     print("Model training finished")
 
     # Output a graph of loss metrics over periods
-    plt.xlabel("RMSE")
-    plt.ylabel("Periods")
+    plt.ylabel("RMSE")
+    plt.xlabel("Periods")
     plt.title("Root Mean Squared Error vs. Periods")
     plt.tight_layout()
     plt.plot(training_rmse, label="training")
