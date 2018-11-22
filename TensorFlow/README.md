@@ -1,4 +1,0 @@
-# TensorFlow Family
-
-- tfBaby
-- tfBoy
