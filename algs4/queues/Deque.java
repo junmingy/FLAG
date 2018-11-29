@@ -5,7 +5,11 @@
  * @Description: NULL
  **************************************************************************** */
 
-public class Deque {
+public class Deque<Item> implements Iterable<Item> {
+    public Deque() {
+
+    }
+
     public static void main(String[] args) {
 
     }
