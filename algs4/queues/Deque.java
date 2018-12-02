@@ -5,6 +5,8 @@
  * @Description: NULL
  **************************************************************************** */
 
+import java.util.Iterator;
+
 public class Deque<Item> implements Iterable<Item> {
     public Deque() {}                           // construct an empty deque
     public boolean isEmpty() {return false;}                 // is the deque empty?
