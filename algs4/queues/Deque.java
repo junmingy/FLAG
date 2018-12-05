@@ -61,54 +61,25 @@ public class Deque<Item> implements Iterable<Item> {
      * @return
      */
     public Iterator<Item> iterator() {
-        return new ListIterator<Item>() {
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-
-            @Override
-            public Item next() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-
-            @Override
-            public Item previous() {
-                return null;
-            }
-
-            @Override
-            public int nextIndex() {
-                return 0;
-            }
-
-            @Override
-            public int previousIndex() {
-                return 0;
-            }
-
-            @Override
-            public void remove() {
-
-            }
-
-            @Override
-            public void set(Item item) {
-
-            }
-
-            @Override
-            public void add(Item item) {
-
-            }
-        };
+        return new ListIterator();
     }
 
+    /**
+     * @brief
+     */
+    private class ListIterator implements Iterator<Item> {
+        public boolean hasNext() {
+            return false;
+        }
+
+        public Item next() {
+            return null;
+        }
+
+        public void remove() {
+
+        }
+    }
 
     /**
      * @brief Unit testing (optional)
