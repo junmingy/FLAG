@@ -8,7 +8,6 @@
 import java.util.Iterator;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-
     /**
      * @brief Construct an empty randomized queue
      */
