@@ -13,9 +13,6 @@ public class Deque<Item> implements Iterable<Item> {
     private Node last;
     private int N;
 
-    /**
-     * 
-     */
     private class Node {
         Item item;
         Node next;
