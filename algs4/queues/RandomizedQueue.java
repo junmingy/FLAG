@@ -9,7 +9,7 @@ import java.util.Iterator;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
-    private Item[] a = (Item[]) new Object[1];
+    private Item[] rq;
 
     private int N = 0;
 

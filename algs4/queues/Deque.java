@@ -9,38 +9,48 @@ import java.util.Iterator;
 
 public class Deque<Item> implements Iterable<Item> {
 
-    private Node first;
-    private Node last;
-    private int N;
+    private Node head; //head node
+    private Node tail; //tail node
+    private int size;
 
     private class Node {
-        Item item;
-        Node next;
-        Node last;
+        Item item; // node value
+        Node next; // next node
+        Node prev; // prev node
     }
 
     /**
      * @brief Construct an empty deque
      */
-    public Deque() {}
+    public Deque() {
+        head = null;
+        tail = null;
+        size = 0;
+    }
 
     /**
      * @brief Is the deque empty?
      * @return
      */
-    public boolean isEmpty() {return false;}
+    public boolean isEmpty() {
+        return (size == 0);
+    }
 
     /**
      * @brief Return the number of items on the deque
      * @return
      */
-    public int size() {return -1;}
+    public int size() {
+        return size;
+    }
 
     /**
      * @brief Add the item to the front
      * @param item
      */
-    public void addFirst(Item item) {}
+    public void addFirst(Item item) {
+        
+    }
 
     /**
      * @brief Add the item to the end
