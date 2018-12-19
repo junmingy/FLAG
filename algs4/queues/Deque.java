@@ -49,21 +49,55 @@ public class Deque<Item> implements Iterable<Item> {
      * @param item
      */
     public void addFirst(Item item) {
-        
+        if(item == null) {
+            throw new java.lang.IllegalArgumentException("Input node is null!");
+        }
+
+        Node oldHead = head;
+        head = new Node();
+        head.item = item;
+
+        oldHead.prev = head;
+        head.next = oldHead;
+        head.prev = null;
+
+        size++;
     }
 
     /**
      * @brief Add the item to the end
      * @param item
      */
-    public void addLast(Item item) {}
+    public void addLast(Item item) {
+        if(item == null) {
+            throw new java.lang.IllegalArgumentException("Input node is null!");
+        }
+
+        Node oldTail = tail;
+        tail = new Node();
+        tail.item = item;
+
+        oldTail.next = tail;
+        tail.prev = oldTail;
+        tail.next = null;
+
+        size++;
+    }
 
     /**
      * @brief Remove and return the item from the front
      * @return
      */
     public Item removeFirst() {
-        Item item = null;
+        if(isEmpty()) {
+            throw new java.util.NoSuchElementException("Dequeue is empty!");
+        }
+
+        Item item = head.item;
+        head = head.next;
+        head.prev = null;
+        size--;
+
         return item;
     }
 
@@ -72,7 +106,15 @@ public class Deque<Item> implements Iterable<Item> {
      * @return
      */
     public Item removeLast() {
-        Item item = null;
+        if(isEmpty()) {
+            throw new java.util.NoSuchElementException("Dequeue is empty!");
+        }
+
+        Item item = tail.item;
+        tail = tail.prev;
+        tail.next = null;
+        size--;
+
         return item;
     }
 
