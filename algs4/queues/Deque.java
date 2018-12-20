@@ -130,17 +130,22 @@ public class Deque<Item> implements Iterable<Item> {
      * @brief
      */
     private class ListIterator implements Iterator<Item> {
+
+        private Node current = head;
+
         public boolean hasNext() {
-            return false;
+            return current != null;
         }
 
         public Item next() {
-            return null;
+            Item item = current.item;
+            current = current.next;
+            current.prev = null;
+
+            return item;
         }
 
-        public void remove() {
-
-        }
+        public void remove() { }
     }
 
     /**
