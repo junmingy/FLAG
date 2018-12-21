@@ -21,14 +21,14 @@ public class PercolationStats {
      * @param trials
      */
     public PercolationStats(int n, int trials) {
-        if(n <= 0 || trials <= 0) {
+        if (n <= 0 || trials <= 0) {
             throw new java.lang.IllegalArgumentException("Input Argument n or trials <= 0!");
         }
 
         fractions = new double[trials];
-        for(int i = 0; i < trials; i++) {
+        for (int i = 0; i < trials; i++) {
             Percolation percolation = new Percolation(n);
-            while(!percolation.percolates()) {
+            while (!percolation.percolates()) {
                 int randRow = StdRandom.uniform(1, n + 1); // [1, n+1)
                 int randCol = StdRandom.uniform(1, n + 1); // [1, n+1)
                 percolation.open(randRow, randCol); // Random row & col

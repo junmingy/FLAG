@@ -23,7 +23,7 @@ public class Percolation {
      * @param n
      */
     public Percolation(int n) {
-        if(n <= 0) {
+        if (n <= 0) {
             throw new java.lang.IllegalArgumentException("Input Argument n <= 0!");
         }
 
@@ -36,8 +36,8 @@ public class Percolation {
 
         nodeMap = new boolean[nodeSum];
         // virtual node is always open
-        for(int i = 0; i < nodeSum; i++) {
-            if(i == virtualHead || i == virtualTail)
+        for (int i = 0; i < nodeSum; i++) {
+            if (i == virtualHead || i == virtualTail)
                 nodeMap[i] = true;
             else
                 nodeMap[i] = false;
@@ -50,11 +50,11 @@ public class Percolation {
      * @param col
      */
     private void validate(int row, int col) {
-        if(row <= 0 || row > edgeSize) {
+        if (row <= 0 || row > edgeSize) {
             throw new java.lang.IllegalArgumentException(
                     "index " + row + " is not between 1 and " + edgeSize);
         }
-        if(col <= 0 || col > edgeSize) {
+        if (col <= 0 || col > edgeSize) {
             throw new java.lang.IllegalArgumentException(
                     "index " + col + " is not between 1 and " + edgeSize);
         }
@@ -69,43 +69,43 @@ public class Percolation {
         validate(row, col);
 
         // Return it's already opened; If not, open
-        if(isOpen(row, col)) return;
+        if (isOpen(row, col)) return;
         int id = edgeSize * (row - 1) + col;
         nodeMap[id] = true;
         openSites++;
 
         // Check this node's neighbours opened or not; if opened, union
         // Up neighbour
-        if(row == 1) {
+        if (row == 1) {
             WQUF.union(id, virtualHead);
         }
         else {
             int upId = edgeSize * (row - 1 - 1) + col;
-            if(nodeMap[upId] == true)
+            if (nodeMap[upId] == true)
                 WQUF.union(id, upId);
         }
 
         // Right neighbour
-        if(col != edgeSize) {
+        if (col != edgeSize) {
             int rightId = id + 1;
-            if(nodeMap[rightId] == true)
+            if (nodeMap[rightId] == true)
                 WQUF.union(id, rightId);
         }
 
         // Down neighbour
-        if(row == edgeSize) {
+        if (row == edgeSize) {
             WQUF.union(id, virtualTail);
         }
         else {
             int downId = edgeSize * row + col;
-            if(nodeMap[downId] == true)
+            if (nodeMap[downId] == true)
                 WQUF.union(id, downId);
         }
 
         // Left neighbour
-        if(col != 1) {
+        if (col != 1) {
             int leftId = id - 1;
-            if(nodeMap[leftId] == true)
+            if (nodeMap[leftId] == true)
                 WQUF.union(id, leftId);
         }
     }
@@ -163,11 +163,11 @@ public class Percolation {
     public static void main(String[] args) {
         int N = StdIn.readInt();
         Percolation percolation = new Percolation(N);
-        while(!StdIn.isEmpty()) {
+        while (!StdIn.isEmpty()) {
             int p = StdIn.readInt();
             int q = StdIn.readInt();
 
-            if(percolation.WQUF.connected(p, q)) continue;
+            if (percolation.WQUF.connected(p, q)) continue;
 
             percolation.WQUF.union(p, q);
 
