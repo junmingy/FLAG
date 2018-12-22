@@ -6,6 +6,7 @@
  **************************************************************************** */
 
 import java.util.Iterator;
+import edu.princeton.cs.algs4.StdOut;
 
 public class Deque<Item> implements Iterable<Item> {
 
@@ -49,17 +50,26 @@ public class Deque<Item> implements Iterable<Item> {
      * @param item
      */
     public void addFirst(Item item) {
-        if(item == null) {
+        if (item == null) {
             throw new java.lang.IllegalArgumentException("Input node is null!");
         }
 
-        Node oldHead = head;
-        head = new Node();
-        head.item = item;
+        if (!isEmpty()) {
+            Node oldHead = head;
 
-        oldHead.prev = head;
-        head.next = oldHead;
-        head.prev = null;
+            head = new Node();
+            head.item = item;
+            head.next = oldHead;
+            head.prev = null;
+
+            oldHead.prev = head;
+        }
+        else {
+            Node node = new Node();
+            node.item = item;
+            head = node;
+            tail = node;
+        }
 
         size++;
     }
@@ -69,17 +79,26 @@ public class Deque<Item> implements Iterable<Item> {
      * @param item
      */
     public void addLast(Item item) {
-        if(item == null) {
+        if (item == null) {
             throw new java.lang.IllegalArgumentException("Input node is null!");
         }
 
-        Node oldTail = tail;
-        tail = new Node();
-        tail.item = item;
+        if (!isEmpty()) {
+            Node oldTail = tail;
 
-        oldTail.next = tail;
-        tail.prev = oldTail;
-        tail.next = null;
+            tail = new Node();
+            tail.item = item;
+            tail.prev = oldTail;
+            tail.next = null;
+
+            oldTail.next = tail;
+        }
+        else {
+            Node node = new Node();
+            node.item = item;
+            head = node;
+            tail = node;
+        }
 
         size++;
     }
@@ -89,13 +108,21 @@ public class Deque<Item> implements Iterable<Item> {
      * @return
      */
     public Item removeFirst() {
-        if(isEmpty()) {
+        if (isEmpty()) {
             throw new java.util.NoSuchElementException("Dequeue is empty!");
         }
 
         Item item = head.item;
-        head = head.next;
-        head.prev = null;
+
+        if (size != 1) {
+            head = head.next;
+            head.prev = null;
+        }
+        else {
+            head = null;
+            tail = null;
+        }
+
         size--;
 
         return item;
@@ -106,13 +133,21 @@ public class Deque<Item> implements Iterable<Item> {
      * @return
      */
     public Item removeLast() {
-        if(isEmpty()) {
+        if (isEmpty()) {
             throw new java.util.NoSuchElementException("Dequeue is empty!");
         }
 
         Item item = tail.item;
-        tail = tail.prev;
-        tail.next = null;
+
+        if (size != 1) {
+            tail = tail.prev;
+            tail.next = null;
+        }
+        else {
+            tail = null;
+            head = null;
+        }
+
         size--;
 
         return item;
@@ -138,14 +173,19 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         public Item next() {
+            if (!hasNext()) {
+                throw new java.util.NoSuchElementException("No more items to return!");
+            }
+
             Item item = current.item;
             current = current.next;
-            current.prev = null;
 
             return item;
         }
 
-        public void remove() { }
+        public void remove() {
+            throw new java.lang.UnsupportedOperationException("No remove() method!");
+        }
     }
 
     /**
@@ -153,6 +193,21 @@ public class Deque<Item> implements Iterable<Item> {
      * @param args
      */
     public static void main(String[] args) {
+        Deque<String> dq = new Deque<String>();
 
+        dq.addFirst("i");
+        dq.addLast("am");
+        dq.addFirst("phd");
+
+        StdOut.println(dq.removeFirst());
+        StdOut.println(dq.removeLast());
+
+        StdOut.println("-------------");
+
+        StdOut.println(dq.size());
+
+        for (String s : dq) {
+            StdOut.println(s);
+        }
     }
 }
